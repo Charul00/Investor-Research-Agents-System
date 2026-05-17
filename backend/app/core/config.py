@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
     refresh_token_expire_days: int = 7
     auto_create_tables: bool = False
+    seed_demo_data: bool = False
     openai_api_key: str | None = None
     openai_model: str = "gpt-5.4-mini"
     twelve_data_api_key: str | None = None

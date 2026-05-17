@@ -13,6 +13,10 @@ from app.core.errors import RequestIdMiddleware, register_error_handlers
 async def lifespan(_: FastAPI):
     if settings.auto_create_tables:
         init_db()
+    if settings.seed_demo_data:
+        from app.scripts.seed_demo import seed
+
+        seed()
     yield
 
 
