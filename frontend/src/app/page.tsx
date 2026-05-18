@@ -225,11 +225,11 @@ export default function Home() {
                 every AI-generated insight tied to an auditable source.
               </p>
             </div>
-            <div className="flex flex-col gap-3 rounded-[1.6rem] border border-white/12 bg-white/8 p-4 sm:flex-row sm:items-center sm:justify-end">
-              <Link href="/signup" className="rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[var(--foreground)] shadow-[0_14px_30px_rgba(255,255,255,0.14)] transition-transform hover:-translate-y-0.5">
+            <div className="flex flex-col gap-3 rounded-[1.6rem] border border-white/20 bg-[#0d251f] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:flex-row sm:items-center sm:justify-end">
+              <Link href="/signup" className="rounded-full border border-[#d7f5e8] bg-[#d7f5e8] px-6 py-3 text-center text-sm font-bold text-[#063f39] shadow-[0_14px_30px_rgba(215,245,232,0.14)] transition-transform hover:-translate-y-0.5">
                 Start free trial
               </Link>
-              <Link href="/login" className="rounded-full border border-white/20 px-6 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-white/10">
+              <Link href="/login" className="rounded-full border border-[#9bd7cc] bg-[#12352e] px-6 py-3 text-center text-sm font-bold text-[#ffffff] shadow-[0_12px_28px_rgba(0,0,0,0.18)] transition-colors hover:bg-[#17483f]">
                 Open dashboard
               </Link>
             </div>
@@ -254,10 +254,10 @@ export default function Home() {
               orchestration, source attribution, and structured AI briefs.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="mailto:hello@klypup.ai" className="rounded-full border border-white/14 bg-white/8 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/14">
+              <a href="mailto:hello@klypup.ai" className="rounded-full border border-white bg-white px-4 py-2 text-sm font-bold text-[#063f39] shadow-[0_12px_28px_rgba(255,255,255,0.1)] transition-transform hover:-translate-y-0.5">
                 Contact sales
               </a>
-              <Link href="/signup" className="rounded-full bg-[#d7f5e8] px-4 py-2 text-sm font-semibold text-[#063f39] transition-transform hover:-translate-y-0.5">
+              <Link href="/signup" className="rounded-full border border-[#9bd7cc] bg-[#d7f5e8] px-4 py-2 text-sm font-bold text-[#063f39] shadow-[0_12px_28px_rgba(215,245,232,0.1)] transition-transform hover:-translate-y-0.5">
                 Start free trial
               </Link>
             </div>
