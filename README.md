@@ -52,6 +52,12 @@ Screenshots are stored in `docs/screenshots/`.
 | Research Studio | `docs/screenshots/05-research-studio.png` |
 | Reports/watchlist workspace | `docs/screenshots/06-workspace-data.png` |
 
+## Architecture Documents
+
+- `ARCHITECTURE.md`: system architecture, data flow, ERD, AI orchestration, multi-tenant flow, and API design.
+- `DECISIONS.md`: option choice, tech stack rationale, multi-tenancy, AI design, trade-offs, and improvements.
+- `docs/diagrams/klypup-architecture.excalidraw`: editable Excalidraw board with all required architecture diagrams.
+
 ## Local Setup
 
 ### Prerequisites

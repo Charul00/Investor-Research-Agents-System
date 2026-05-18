@@ -4,6 +4,22 @@
 
 Klypup Research OS is a full-stack, multi-tenant investment research dashboard. The frontend is a Next.js app. The backend is a FastAPI REST API. PostgreSQL stores users, organizations, memberships, saved reports, watchlists, invites, and audit logs. The AI research layer selects data tools dynamically, fetches external market/news/SEC data, searches Qdrant-backed RAG when configured, caches expensive tool calls in Upstash Redis, and uses OpenAI for concise source-grounded synthesis.
 
+## Editable Excalidraw Diagrams
+
+The editable architecture board is available at:
+
+- [`docs/diagrams/klypup-architecture.excalidraw`](docs/diagrams/klypup-architecture.excalidraw)
+
+Open it in [Excalidraw](https://excalidraw.com) with **Open > Select file from device**. The board contains five labeled frames:
+
+- `1. System Architecture`
+- `2. Research Data Flow`
+- `3. Database ER Diagram`
+- `4. AI Orchestration Flow`
+- `5. Multi-Tenant Isolation Flow`
+
+The Mermaid diagrams below are kept as GitHub-readable previews of the same architecture.
+
 ```mermaid
 flowchart LR
   User["Analyst / Admin"] --> Browser["Next.js Frontend"]
@@ -292,6 +308,24 @@ All endpoints are under `/api/v1`.
 | `POST` | `/organizations` | Yes | No | Create new organization |
 | `POST` | `/organizations/invites` | Admin | Yes | Create invite code |
 | `POST` | `/organizations/join` | Yes | No | Join with invite code |
+
+### Key Request / Response Shapes
+
+| Endpoint | Request shape | Response shape |
+| --- | --- | --- |
+| `POST /auth/signup` | `{ full_name, email, password, organization_name }` | `{ access_token, refresh_token, user, memberships, active_membership }` |
+| `POST /auth/login` | `{ email, password, organization_id? }` | `{ access_token, refresh_token, user, memberships, active_membership }` |
+| `GET /dashboard` | Headers: `Authorization`, `X-Organization-Id` | `{ workspace, stats, recent_reports, watchlist }` |
+| `POST /research` | `{ query }` | `{ query, generated_at, latency_ms, plan, executive_summary, companies, news, documents, insights, sources }` |
+| `GET /reports` | Query params: `search?`, `status?`, `tag?` | `{ reports: Report[] }` |
+| `POST /reports` | `{ title, query_text, summary?, status, tags }` | `Report` |
+| `PATCH /reports/{id}` | Partial `{ title?, query_text?, summary?, status?, tags? }` | `Report` |
+| `GET /watchlist` | Headers: `Authorization`, `X-Organization-Id` | `{ items: WatchlistItem[] }` |
+| `POST /watchlist` | `{ symbol, company_name, notes? }` | `WatchlistItem` |
+| `PATCH /watchlist/{id}` | `{ company_name?, notes? }` | `WatchlistItem` |
+| `POST /organizations` | `{ name }` | `{ id, name, slug }` |
+| `POST /organizations/invites` | `{ role, email?, expires_in_days }` | `{ id, code, role, email, expires_at }` |
+| `POST /organizations/join` | `{ code }` | `{ message }` |
 
 ### Research Request
 
