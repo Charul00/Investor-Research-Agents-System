@@ -226,7 +226,10 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-3 rounded-[1.6rem] border border-white/12 bg-white/8 p-4 sm:flex-row sm:items-center sm:justify-end">
-              <Link href="/signup" className="rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[var(--foreground)] shadow-[0_14px_30px_rgba(255,255,255,0.14)] transition-transform hover:-translate-y-0.5">
+              <Link
+                href="/signup"
+                className="rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#0b1220] shadow-[0_14px_30px_rgba(255,255,255,0.14)] transition-transform hover:-translate-y-0.5"
+              >
                 Start free trial
               </Link>
               <Link href="/login" className="rounded-full border border-white/24 px-6 py-3 text-center text-sm font-extrabold text-[#ffffff] drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)] transition-colors hover:bg-white/10">
@@ -257,7 +260,10 @@ export default function Home() {
               <a href="mailto:hello@klypup.ai" className="rounded-full border border-white/20 bg-white/8 px-4 py-2 text-sm font-extrabold text-[#ffffff] drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)] transition-colors hover:bg-white/14">
                 Contact sales
               </a>
-              <Link href="/signup" className="rounded-full bg-[#d7f5e8] px-4 py-2 text-sm font-semibold text-[#063f39] transition-transform hover:-translate-y-0.5">
+              <Link
+                href="/signup"
+                className="rounded-full bg-[#d7f5e8] px-4 py-2 text-sm font-semibold text-[#0b1220] transition-transform hover:-translate-y-0.5"
+              >
                 Start free trial
               </Link>
             </div>
