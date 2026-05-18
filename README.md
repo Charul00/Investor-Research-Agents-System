@@ -41,16 +41,29 @@ The backend plans which tools are needed, fetches evidence from market/news/RAG 
 
 ## Screenshots
 
-Screenshots are stored in `docs/screenshots/`.
+### Landing Page
 
-| Screen | File |
-| --- | --- |
-| Landing page | `docs/screenshots/01-landing.png` |
-| Login | `docs/screenshots/02-login.png` |
-| Dashboard | `docs/screenshots/03-dashboard.png` |
-| Mini AI chat | `docs/screenshots/04-mini-chat.png` |
-| Research Studio | `docs/screenshots/05-research-studio.png` |
-| Reports/watchlist workspace | `docs/screenshots/06-workspace-data.png` |
+![Landing page](docs/screenshots/01-landing.png)
+
+### Login
+
+![Login screen](docs/screenshots/02-login.png)
+
+### Dashboard
+
+![Dashboard](docs/screenshots/03-dashboard.png)
+
+### Mini AI Chat
+
+![Mini AI chat](docs/screenshots/04-mini-chat.png)
+
+### Research Studio
+
+![Research Studio](docs/screenshots/05-research-studio.png)
+
+### Reports And Watchlist Workspace
+
+![Reports and watchlist workspace](docs/screenshots/06-workspace-data.png)
 
 ## Architecture Documents
 
