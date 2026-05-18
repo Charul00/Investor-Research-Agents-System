@@ -228,7 +228,7 @@ export default function Home() {
             <div className="flex flex-col gap-3 rounded-[1.6rem] border border-white/12 bg-white/8 p-4 sm:flex-row sm:items-center sm:justify-end">
               <Link
                 href="/signup"
-                className="rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#0b1220] shadow-[0_14px_30px_rgba(255,255,255,0.14)] transition-transform hover:-translate-y-0.5"
+                className="rounded-full bg-white px-6 py-3 text-center text-sm font-bold !text-black shadow-[0_14px_30px_rgba(255,255,255,0.14)] transition-transform hover:-translate-y-0.5"
               >
                 Start free trial
               </Link>
@@ -262,7 +262,7 @@ export default function Home() {
               </a>
               <Link
                 href="/signup"
-                className="rounded-full bg-[#d7f5e8] px-4 py-2 text-sm font-semibold text-[#0b1220] transition-transform hover:-translate-y-0.5"
+                className="rounded-full bg-[#d7f5e8] px-4 py-2 text-sm font-semibold !text-black transition-transform hover:-translate-y-0.5"
               >
                 Start free trial
               </Link>
