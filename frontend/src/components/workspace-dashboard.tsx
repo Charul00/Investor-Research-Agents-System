@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import {
+  BarChart3,
+  BookOpen,
   LogOut,
   Pencil,
   Plus,
   Save,
   Search,
+  Sparkles,
   Trash2,
   X,
 } from "lucide-react";
@@ -65,6 +68,9 @@ const defaultWatchlistForm: WatchlistFormState = {
 const REPORTS_PAGE_SIZE = 3;
 const WATCHLIST_PAGE_SIZE = 3;
 const ORGANIZATIONS_PAGE_SIZE = 3;
+const COMPARE_RESEARCH_QUERY =
+  "Compare NVIDIA, AMD, and Intel stock performance, valuation metrics, recent news sentiment, and key risks.";
+const COMPARE_RESEARCH_HREF = `/research?query=${encodeURIComponent(COMPARE_RESEARCH_QUERY)}`;
 
 function getPageCount(totalItems: number, pageSize: number) {
   return Math.max(1, Math.ceil(totalItems / pageSize));
@@ -638,9 +644,53 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
         ))}
       </section>
 
+      <section className="mt-6 grid gap-4 lg:grid-cols-4">
+        {[
+          {
+            label: "New Research",
+            description: "Ask the AI agents for a fresh source-backed market brief.",
+            href: "/research",
+            icon: Sparkles,
+          },
+          {
+            label: "Compare Companies",
+            description: "Open a ready-to-edit comparison for NVIDIA, AMD, and Intel.",
+            href: COMPARE_RESEARCH_HREF,
+            icon: BarChart3,
+          },
+          {
+            label: "Saved Reports",
+            description: "Review recent research queries and saved workspace briefs.",
+            href: "#saved-research",
+            icon: BookOpen,
+          },
+          {
+            label: "Track Company",
+            description: "Bookmark a company and keep coverage notes in the watchlist.",
+            href: "#watchlist",
+            icon: Plus,
+          },
+        ].map((action) => {
+          const ActionIcon = action.icon;
+          return (
+            <Link
+              key={action.label}
+              href={action.href}
+              className="premium-card group rounded-[1.45rem] p-5 transition hover:-translate-y-1"
+            >
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#e8f2ee] text-[var(--accent-strong)] shadow-[0_10px_24px_rgba(6,78,59,0.1)] transition group-hover:bg-[var(--accent-strong)] group-hover:text-white">
+                <ActionIcon size={18} aria-hidden="true" />
+              </div>
+              <h2 className="text-lg font-semibold text-[var(--foreground)]">{action.label}</h2>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{action.description}</p>
+            </Link>
+          );
+        })}
+      </section>
+
       <section className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)]">
         <div className="space-y-6">
-          <div className="glass-panel p-5 sm:p-6">
+          <div id="new-report" className="glass-panel scroll-mt-24 p-5 sm:p-6">
             <div className="mb-5">
               <p className="eyebrow mb-2">New report</p>
               <h2 className="text-2xl font-semibold text-[var(--foreground)]">
@@ -710,7 +760,7 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
             </form>
           </div>
 
-          <div className="glass-panel p-5 sm:p-6">
+          <div id="saved-research" className="glass-panel scroll-mt-24 p-5 sm:p-6">
             <div className="mb-5 flex flex-col gap-4 2xl:flex-row 2xl:items-end 2xl:justify-between">
               <div>
                 <p className="eyebrow mb-2">Saved research</p>
@@ -929,7 +979,7 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
         </div>
 
         <div className="space-y-6">
-          <div className="glass-panel p-5 sm:p-6">
+          <div id="watchlist" className="glass-panel scroll-mt-24 p-5 sm:p-6">
             <div className="mb-5">
               <p className="eyebrow mb-2">Add company</p>
               <h2 className="text-2xl font-semibold text-[var(--foreground)]">Build the watchlist</h2>
