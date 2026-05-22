@@ -197,6 +197,21 @@ NEGATIVE_WORDS = {
     "lawsuit",
     "decline",
 }
+NON_TICKER_TERMS = {
+    "AI",
+    "API",
+    "CEO",
+    "CFO",
+    "EPS",
+    "ETF",
+    "GDP",
+    "IPO",
+    "LLM",
+    "PCE",
+    "SEC",
+    "USA",
+    "USD",
+}
 
 
 def extract_symbols(query: str) -> list[str]:
@@ -211,7 +226,7 @@ def extract_symbols(query: str) -> list[str]:
 
     uppercase_symbols = re.findall(r"\b[A-Z]{2,5}\b", query)
     for symbol in uppercase_symbols:
-        if symbol in COMPANY_PROFILES and symbol not in symbols:
+        if symbol not in NON_TICKER_TERMS and symbol not in symbols:
             symbols.append(symbol)
 
     return symbols or ["NVDA"]

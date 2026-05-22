@@ -224,9 +224,16 @@ async def llm_refine_plan(query: str, fallback: ResearchPlan) -> ResearchPlan:
         return fallback
 
     prompt = (
-        "You are the planner for an investment research dashboard. Return only compact JSON with "
-        "keys symbols, tools, rationale. Allowed tools: market_data, news_sentiment, document_kb. "
-        "Select only tools needed by the user query. Query: "
+        "You are the semantic planning agent for an investment research dashboard. Understand the "
+        "meaning of the query, not just exact keywords. Return only compact JSON with keys "
+        "symbols, tools, rationale. Symbols must be public stock tickers when you can infer them. "
+        "Allowed tools: market_data, news_sentiment, document_kb. Use market_data for quotes, "
+        "valuation, financial metrics, relative performance, price movement, volume, or "
+        "fundamentals. Use news_sentiment for recent coverage, market reaction, reputation, "
+        "analyst chatter, or headlines even when the user does not literally say 'news'. Use "
+        "document_kb for filings, SEC facts, earnings reports, transcripts, balance sheets, risk "
+        "factors, and fundamentals that require document evidence. Select only tools needed by "
+        "the user query. Query: "
         f"{query}"
     )
     text = await call_openai(prompt, max_output_tokens=300)
