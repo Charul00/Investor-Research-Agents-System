@@ -33,6 +33,7 @@ import {
   ResearchResponse,
   WatchlistItem,
   clearSession,
+  saveSession,
   setActiveMembership,
 } from "@/lib/api";
 
@@ -66,6 +67,12 @@ type InviteResponse = {
   role: MembershipRole;
   email: string | null;
   expires_at: string;
+};
+
+type OrganizationResponse = {
+  id: string;
+  name: string;
+  slug: string;
 };
 
 const defaultReportForm: ReportFormState = {
@@ -191,6 +198,9 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
   const [inviteForm, setInviteForm] = useState<InviteFormState>(defaultInviteForm);
   const [lastInvite, setLastInvite] = useState<InviteResponse | null>(null);
   const [inviteCopied, setInviteCopied] = useState(false);
+  const [newWorkspaceName, setNewWorkspaceName] = useState("");
+  const [joinInviteCode, setJoinInviteCode] = useState("");
+  const [workspaceNotice, setWorkspaceNotice] = useState("");
   const [reportSearch, setReportSearch] = useState("");
   const [reportFilter, setReportFilter] = useState<ReportStatus | "all">("all");
   const [reportPage, setReportPage] = useState(1);
@@ -449,6 +459,95 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
       setInviteForm(defaultInviteForm);
     } catch (submitError) {
       showCaughtError(submitError, "Unable to create invite code.", "Invite was not created");
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  async function handleCreateOrganization(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setWorkspaceNotice("");
+
+    if (newWorkspaceName.trim().length < 2) {
+      showError("Please enter a workspace name.", "Workspace needs a name");
+      return;
+    }
+
+    setBusyKey("create-organization");
+
+    try {
+      const organization = await apiFetch<OrganizationResponse>(
+        "/organizations",
+        {
+          method: "POST",
+          body: JSON.stringify({ name: newWorkspaceName.trim() }),
+        },
+        session,
+      );
+      const meResponse = await apiFetch<MeResponse>("/auth/me", { method: "GET" }, session);
+      const nextActiveMembership =
+        meResponse.memberships.find(
+          (membership) => membership.organization_id === organization.id,
+        ) ?? session.active_membership;
+      const nextSession = {
+        ...session,
+        memberships: meResponse.memberships,
+        active_membership: nextActiveMembership,
+      };
+      saveSession(nextSession);
+      startTransition(() => {
+        setSession(nextSession);
+        setMe(meResponse);
+        setReportPage(1);
+        setWatchlistPage(1);
+        setOrganizationPage(1);
+      });
+      setNewWorkspaceName("");
+      setWorkspaceNotice(`${organization.name} was created and added to your workspace switcher.`);
+    } catch (submitError) {
+      showCaughtError(submitError, "Unable to create workspace.", "Workspace was not created");
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  async function handleJoinOrganization(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setWorkspaceNotice("");
+
+    if (joinInviteCode.trim().length < 6) {
+      showError("Please enter a valid invite code.", "Invite code required");
+      return;
+    }
+
+    setBusyKey("join-organization");
+
+    try {
+      await apiFetch<{ message: string }>(
+        "/organizations/join",
+        {
+          method: "POST",
+          body: JSON.stringify({ code: joinInviteCode.trim().toUpperCase() }),
+        },
+        session,
+      );
+      const meResponse = await apiFetch<MeResponse>("/auth/me", { method: "GET" }, session);
+      const nextSession = {
+        ...session,
+        memberships: meResponse.memberships,
+      };
+      saveSession(nextSession);
+      startTransition(() => {
+        setSession(nextSession);
+        setMe(meResponse);
+        setOrganizationPage(1);
+      });
+      setJoinInviteCode("");
+      setWorkspaceNotice("Invite accepted. The new workspace is now available in your switcher.");
+    } catch (submitError) {
+      showCaughtError(submitError, "Unable to join workspace.", "Invite was not accepted");
     } finally {
       setBusyKey(null);
     }
@@ -1062,6 +1161,69 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
         </div>
 
         <div className="space-y-6">
+          <div className="glass-panel p-5 sm:p-6">
+            <div className="mb-5">
+              <p className="eyebrow mb-2">Workspace management</p>
+              <h2 className="text-2xl font-semibold text-[var(--foreground)]">
+                Create or join workspaces
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+                Create a new organization as an admin, or use an invite code to join another
+                workspace.
+              </p>
+            </div>
+
+            <div className="grid gap-5">
+              <form className="grid gap-3" onSubmit={handleCreateOrganization} noValidate>
+                <label className="text-sm font-semibold text-[var(--foreground)]">
+                  Create new workspace
+                </label>
+                <input
+                  value={newWorkspaceName}
+                  onChange={(event) => setNewWorkspaceName(event.target.value)}
+                  className="field"
+                  placeholder="Organization name"
+                />
+                <button
+                  type="submit"
+                  disabled={busyKey === "create-organization"}
+                  className="btn-secondary disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <Plus size={16} aria-hidden="true" />
+                  {busyKey === "create-organization" ? "Creating..." : "Create workspace"}
+                </button>
+              </form>
+
+              <div className="h-px bg-[var(--border)]" />
+
+              <form className="grid gap-3" onSubmit={handleJoinOrganization} noValidate>
+                <label className="text-sm font-semibold text-[var(--foreground)]">
+                  Join with invite code
+                </label>
+                <input
+                  value={joinInviteCode}
+                  onChange={(event) => setJoinInviteCode(event.target.value.toUpperCase())}
+                  className="field font-mono uppercase tracking-[0.12em]"
+                  placeholder="INVITE-CODE"
+                />
+                <button
+                  type="submit"
+                  disabled={busyKey === "join-organization"}
+                  className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <UserPlus size={16} aria-hidden="true" />
+                  {busyKey === "join-organization" ? "Joining..." : "Join workspace"}
+                </button>
+              </form>
+            </div>
+
+            {workspaceNotice ? (
+              <div className="mt-5 rounded-[1.2rem] border border-[#b7dfcf] bg-[#edf8f2] px-4 py-3 text-sm font-semibold leading-6 text-[var(--accent-deep)]">
+                {workspaceNotice}
+              </div>
+            ) : null}
+          </div>
+
           <div id="watchlist" className="glass-panel scroll-mt-24 p-5 sm:p-6">
             <div className="mb-5">
               <p className="eyebrow mb-2">Add company</p>
