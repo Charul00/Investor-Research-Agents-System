@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   BarChart3,
   BookOpen,
+  Copy,
   LogOut,
   Pencil,
   Plus,
@@ -11,6 +12,7 @@ import {
   Search,
   Sparkles,
   Trash2,
+  UserPlus,
   X,
 } from "lucide-react";
 import { startTransition, useEffect, useEffectEvent, useMemo, useState } from "react";
@@ -24,6 +26,7 @@ import {
   apiFetch,
   AuthSession,
   DashboardResponse,
+  MembershipRole,
   MeResponse,
   Report,
   ReportStatus,
@@ -51,6 +54,20 @@ type WatchlistFormState = {
   notes: string;
 };
 
+type InviteFormState = {
+  email: string;
+  role: MembershipRole;
+  expiresInDays: string;
+};
+
+type InviteResponse = {
+  id: string;
+  code: string;
+  role: MembershipRole;
+  email: string | null;
+  expires_at: string;
+};
+
 const defaultReportForm: ReportFormState = {
   title: "",
   queryText: "",
@@ -63,6 +80,12 @@ const defaultWatchlistForm: WatchlistFormState = {
   symbol: "",
   companyName: "",
   notes: "",
+};
+
+const defaultInviteForm: InviteFormState = {
+  email: "",
+  role: "analyst",
+  expiresInDays: "7",
 };
 
 const REPORTS_PAGE_SIZE = 3;
@@ -146,6 +169,14 @@ function validateWatchlistForm(form: Pick<WatchlistFormState, "symbol" | "compan
   return "";
 }
 
+function validateInviteForm(form: InviteFormState) {
+  const expiresInDays = Number(form.expiresInDays);
+  if (!Number.isInteger(expiresInDays) || expiresInDays < 1 || expiresInDays > 30) {
+    return "Please choose an invite expiry between 1 and 30 days.";
+  }
+  return "";
+}
+
 export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) {
   const [session, setSession] = useState(initialSession);
   const [me, setMe] = useState<MeResponse | null>(null);
@@ -157,6 +188,9 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
   const [toastTitle, setToastTitle] = useState("Something needs attention");
   const [reportForm, setReportForm] = useState<ReportFormState>(defaultReportForm);
   const [watchlistForm, setWatchlistForm] = useState<WatchlistFormState>(defaultWatchlistForm);
+  const [inviteForm, setInviteForm] = useState<InviteFormState>(defaultInviteForm);
+  const [lastInvite, setLastInvite] = useState<InviteResponse | null>(null);
+  const [inviteCopied, setInviteCopied] = useState(false);
   const [reportSearch, setReportSearch] = useState("");
   const [reportFilter, setReportFilter] = useState<ReportStatus | "all">("all");
   const [reportPage, setReportPage] = useState(1);
@@ -261,6 +295,7 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
     () => dashboard?.workspace.organization_name ?? session.active_membership.organization_name,
     [dashboard, session.active_membership.organization_name],
   );
+  const isCurrentUserAdmin = session.active_membership.role === "admin";
   const reportPageCount = getPageCount(reports.length, REPORTS_PAGE_SIZE);
   const watchlistPageCount = getPageCount(watchlist.length, WATCHLIST_PAGE_SIZE);
   const memberships = me?.memberships ?? [];
@@ -381,6 +416,54 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
       showCaughtError(submitError, "Unable to add watchlist item.", "Company was not added");
     } finally {
       setBusyKey(null);
+    }
+  }
+
+  async function handleCreateInvite(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+
+    const validationError = validateInviteForm(inviteForm);
+    if (validationError) {
+      showError(validationError, "Invite needs a valid expiry");
+      return;
+    }
+
+    setBusyKey("create-invite");
+    setInviteCopied(false);
+
+    try {
+      const invite = await apiFetch<InviteResponse>(
+        "/organizations/invites",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: inviteForm.email.trim() || null,
+            role: inviteForm.role,
+            expires_in_days: Number(inviteForm.expiresInDays),
+          }),
+        },
+        session,
+      );
+      setLastInvite(invite);
+      setInviteForm(defaultInviteForm);
+    } catch (submitError) {
+      showCaughtError(submitError, "Unable to create invite code.", "Invite was not created");
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  async function copyInviteCode() {
+    if (!lastInvite) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(lastInvite.code);
+      setInviteCopied(true);
+    } catch {
+      showError("Copy failed. Please select and copy the invite code manually.", "Copy failed");
     }
   }
 
@@ -1149,6 +1232,104 @@ export function WorkspaceDashboard({ initialSession }: WorkspaceDashboardProps) 
               onPageChange={setWatchlistPage}
             />
           </div>
+
+          {isCurrentUserAdmin ? (
+            <div className="glass-panel p-5 sm:p-6">
+              <div className="mb-5 flex items-start gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#e8f2ee] text-[var(--accent-strong)]">
+                  <UserPlus size={18} aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="eyebrow mb-2">Admin access</p>
+                  <h2 className="text-2xl font-semibold text-[var(--foreground)]">
+                    Invite teammates
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+                    Generate a role-based invite code and share it with analysts who should join
+                    this workspace.
+                  </p>
+                </div>
+              </div>
+
+              <form className="grid gap-4" onSubmit={handleCreateInvite} noValidate>
+                <input
+                  value={inviteForm.email}
+                  onChange={(event) =>
+                    setInviteForm((current) => ({ ...current, email: event.target.value }))
+                  }
+                  className="field"
+                  placeholder="Invitee email (optional)"
+                  type="email"
+                />
+                <div className="grid gap-4 md:grid-cols-2">
+                  <select
+                    value={inviteForm.role}
+                    onChange={(event) =>
+                      setInviteForm((current) => ({
+                        ...current,
+                        role: event.target.value as MembershipRole,
+                      }))
+                    }
+                    className="field"
+                  >
+                    <option value="analyst">Analyst</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <input
+                    value={inviteForm.expiresInDays}
+                    onChange={(event) =>
+                      setInviteForm((current) => ({
+                        ...current,
+                        expiresInDays: event.target.value,
+                      }))
+                    }
+                    className="field"
+                    inputMode="numeric"
+                    max={30}
+                    min={1}
+                    placeholder="Expires in days"
+                    type="number"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={busyKey === "create-invite"}
+                  className="btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <UserPlus size={16} aria-hidden="true" />
+                  {busyKey === "create-invite" ? "Creating..." : "Create invite code"}
+                </button>
+              </form>
+
+              {lastInvite ? (
+                <div className="mt-5 rounded-[1.35rem] border border-[var(--border-strong)] bg-[#f7fbf9] p-4">
+                  <p className="text-sm font-semibold text-[var(--foreground)]">
+                    Share this invite code
+                  </p>
+                  <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <code className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-lg font-black tracking-[0.16em] text-[var(--accent-deep)]">
+                      {lastInvite.code}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void copyInviteCode();
+                      }}
+                      className="btn-secondary min-h-11"
+                    >
+                      <Copy size={16} aria-hidden="true" />
+                      {inviteCopied ? "Copied" : "Copy code"}
+                    </button>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                    Role: <span className="font-semibold capitalize">{lastInvite.role}</span>
+                    {lastInvite.email ? `, reserved for ${lastInvite.email}` : ", open to any signed-in user with the code"}.
+                    Expires on {formatDate(lastInvite.expires_at)}.
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
 
           <div className="glass-panel p-5 sm:p-6">
             <div className="mb-5">
