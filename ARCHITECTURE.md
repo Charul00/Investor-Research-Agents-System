@@ -35,7 +35,7 @@ flowchart LR
   AI --> RAG["Document KB<br/>Qdrant + local fallback"]
   AI --> Synthesis["OpenAI Responses API"]
   Cache --> AI
-  Market --> AI
+  Market --> AI 
   News --> AI
   SEC --> AI
   RAG --> AI

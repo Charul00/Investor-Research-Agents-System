@@ -1,14 +1,10 @@
-# Investment Research OS
+# AI Researcher
 
-AI-powered investment research dashboard for the applied AI technical assessment.
-
-## Option Chosen
-
-I chose **Option A: Investment Research Dashboard** because it best demonstrates applied AI inside a real product workflow: authenticated workspaces, tenant-isolated saved research, watchlists, external market/news tools, a RAG-style document index, and OpenAI synthesis rendered as structured UI instead of a chatbot-only answer.
+AI-powered workspace for investment research teams.
 
 ## Product Summary
 
-Investment Research OS lets analysts ask natural-language market questions such as:
+AI Researcher lets analysts ask natural-language market questions such as:
 
 > Show only NVIDIA latest stock price, volume, P/E, revenue, EPS, and recent price performance.
 
@@ -39,37 +35,11 @@ The backend plans which tools are needed, fetches evidence from market/news/RAG 
 - Source attribution for market quotes, news articles, local knowledge-base snippets, and OpenAI synthesis.
 - Responsive dashboard, loading states, empty states, toast errors, and user-friendly validation messages.
 
-## Screenshots
-
-### Landing Page
-
-![Landing page](docs/screenshots/01-landing.png)
-
-### Login
-
-![Login screen](docs/screenshots/02-login.png)
-
-### Dashboard
-
-![Dashboard](docs/screenshots/03-dashboard.png)
-
-### Mini AI Chat
-
-![Mini AI chat](docs/screenshots/04-mini-chat.png)
-
-### Research Studio
-
-![Research Studio](docs/screenshots/05-research-studio.png)
-
-### Reports And Watchlist Workspace
-
-![Reports and watchlist workspace](docs/screenshots/06-workspace-data.png)
-
 ## Architecture Documents
 
 - `ARCHITECTURE.md`: system architecture, data flow, ERD, AI orchestration, multi-tenant flow, and API design.
-- `DECISIONS.md`: option choice, tech stack rationale, multi-tenancy, AI design, trade-offs, and improvements.
-- `docs/diagrams/investment-research-architecture.excalidraw`: editable Excalidraw board with all required architecture diagrams.
+- `DECISIONS.md`: technical decisions, security considerations, trade-offs, and future improvements.
+- `docs/diagrams/investment-research-architecture.excalidraw`: editable Excalidraw system architecture diagrams.
 
 ## Local Setup
 
@@ -157,9 +127,9 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Demo Accounts
+## Development Accounts
 
-All demo accounts use:
+All seeded development accounts use:
 
 ```text
 DemoPass123
@@ -179,33 +149,6 @@ DemoPass123
 | `admin@cedarridge.com` | Admin | Cedar Ridge Partners |
 | `analyst@cedarridge.com` | Analyst | Cedar Ridge Partners |
 | `multi@research.demo` | Analyst | Northstar Capital + Eastbridge Research |
-
-## Demo Workflows
-
-For a complete presentation outline, see `docs/DEMO_SCRIPT.md`.
-
-1. **Core AI research**
-   - Log in as `admin@northstar.com`.
-   - Open the floating AI chat bubble.
-   - Ask: `Show only NVIDIA latest stock price, volume, P/E, revenue, EPS, and recent price performance.`
-   - Confirm the result uses `market_data + llm_synthesis`, shows market cards, and cites market/API sources.
-
-2. **Dynamic tool selection**
-   - Ask: `Summarize only the recent news sentiment for Tesla. Do not analyze stock price.`
-   - Confirm the response uses news sentiment and does not fetch market cards.
-
-3. **RAG-style document evidence**
-   - Ask: `Analyze NVIDIA earnings report details from filings. Focus on data center growth, AI GPU demand, export controls, and competition.`
-   - Confirm document snippets and knowledge-base sources are displayed.
-
-4. **Multi-tenant isolation**
-   - Log in as `admin@northstar.com` and note saved reports/watchlist.
-   - Log out and log in as `admin@eastbridge.com`.
-   - Confirm Eastbridge has separate reports/watchlist and cannot access Northstar records.
-
-5. **Role-based access**
-   - Use Admin to create organization invites.
-   - Use Analyst to work with reports/watchlists while admin-only workspace actions remain restricted.
 
 ## AI Tool Orchestration
 
@@ -279,4 +222,4 @@ Set these production environment variables:
 - Qdrant is used when configured; if it is unavailable, the backend falls back to the local RAG index.
 - The app has live status updates and realtime external data fetching, but not token-level SSE streaming yet.
 - Docker Compose currently provisions PostgreSQL only; frontend/backend still run as local dev processes.
-- Deployment is designed for Vercel + Render, but live URLs are optional for this assessment.
+- Configure live URLs and production credentials before releasing the application.

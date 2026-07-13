@@ -1,10 +1,8 @@
-# Decisions
+# AI Researcher Technical Decisions
 
-## Option Chosen
+## Product Approach
 
-I chose **Option A: Investment Research Dashboard**.
-
-The reason is product fit: investment research naturally needs full-stack workflows, external data integrations, source attribution, saved reports, watchlists, and structured AI synthesis. It is a better demonstration of applied AI than a standalone chatbot because the AI feature sits inside a real analyst workspace with authentication, persistence, tenant isolation, and reusable outputs.
+AI Researcher combines full-stack workflows, external data integrations, source attribution, saved reports, watchlists, and structured AI synthesis. The AI feature sits inside a real analyst workspace with authentication, persistence, tenant isolation, and reusable outputs.
 
 ## Tech Stack Decision
 
@@ -16,8 +14,8 @@ Alternatives considered:
 
 - MERN: fast for CRUD, but relational tenant boundaries are cleaner in PostgreSQL.
 - Django + React: strong batteries-included backend, but FastAPI gave faster API iteration for this build.
-- Supabase: excellent for auth/database speed, but implementing auth/tenant middleware directly made the architecture easier to explain in the interview.
-- Pinecone/Chroma/pgvector: useful alternatives, but Qdrant gives a clear managed vector DB story for the assessment while the local index keeps the demo resilient.
+- Supabase: excellent for auth/database speed, but implementing auth/tenant middleware directly keeps the architecture easier to maintain.
+- Pinecone/Chroma/pgvector: useful alternatives, but Qdrant provides a managed vector database path while the local index improves development resilience.
 
 ## Multi-Tenancy Decision
 
@@ -30,7 +28,7 @@ Every protected tenant request includes:
 
 The backend resolves the current user from the JWT, then checks `memberships` for an active membership in the requested organization. Routes receive that membership context and filter database queries by `membership.organization_id`.
 
-This pattern is simple, easy to reason about, and appropriate for the assessment. It demonstrates the key production concept: tenant isolation is enforced server-side, not trusted from the frontend. A schema-per-tenant design would add operational complexity without improving the core demo.
+This pattern is simple, easy to reason about, and appropriate for the current product requirements. It demonstrates the key production concept: tenant isolation is enforced server-side, not trusted from the frontend. A schema-per-tenant design would add operational complexity without improving the core workflow.
 
 ## RBAC Decision
 
@@ -81,11 +79,9 @@ The dashboard is designed to feel like a real analyst workspace from day one:
 - Pagination, filtering, loading states, empty states, and responsive layouts.
 - English-only application copy for a professional product experience.
 
-The conversation with the developer can be Hinglish, but the submitted application stays English-only.
-
 ## Trade-Offs Made
 
-The biggest trade-off is balancing realtime external services with demo reliability. Qdrant, SEC, Twelve Data, Alpha Vantage, and Upstash improve realism, while local/public fallbacks keep the app usable if a free-tier service throttles.
+The biggest trade-off is balancing realtime external services with development reliability. Qdrant, SEC, Twelve Data, Alpha Vantage, and Upstash improve realism, while local/public fallbacks keep the app usable if a free-tier service throttles.
 
 Another trade-off is free-tier market data latency and rate limits. In production, I would upgrade to a paid market data provider with exchange entitlements and SLAs.
 
@@ -93,7 +89,7 @@ I also chose live status animation instead of SSE/token streaming. The UI commun
 
 ## Hardest Part
 
-The hardest part was making tool orchestration feel dynamic and trustworthy. A naive implementation could call every tool for every query, but that fails the product requirement and increases latency. I solved this with a hybrid planner:
+The hardest part was making tool orchestration feel dynamic and trustworthy. A naive implementation could call every tool for every query, but that fails the product workflow and increases latency. I solved this with a hybrid planner:
 
 - deterministic keyword/symbol rules for reliability;
 - OpenAI planner refinement for flexible natural language;

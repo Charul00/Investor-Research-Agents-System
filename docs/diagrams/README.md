@@ -6,7 +6,7 @@ Editable Excalidraw board:
 
 Open the file at `https://excalidraw.com` using **Open > Select file from device**.
 
-The board contains five frames that map directly to the assignment requirements:
+The board contains five frames that document the core system views:
 
 - `1. System Architecture`
 - `2. Research Data Flow`

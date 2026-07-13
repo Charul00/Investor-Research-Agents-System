@@ -1,4 +1,4 @@
-# Option A Project Plan
+# AI Researcher Project Plan
 
 ## Project
 AI-powered Investment Research Dashboard
@@ -128,14 +128,14 @@ Hybrid architecture:
 - Add SSE streaming
 
 ### Day 5
-- Testing, cleanup, screenshots, README, ARCHITECTURE.md, DECISIONS.md
+- Testing, cleanup, README, ARCHITECTURE.md, and DECISIONS.md
 - Deploy frontend to Vercel and backend to Render
 - Rehearse live demo with 2 orgs and 2 roles
 
 ## Important Constraint
 Do not promise "error free". Build for graceful degradation, observable failures, and clear user feedback instead.
 
-## Demo Script Targets
+## Acceptance Scenarios
 1. Analyst creates a research query and gets a structured report
 2. Admin in Org A sees only Org A data
 3. User in Org B cannot access Org A reports
