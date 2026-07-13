@@ -2,13 +2,13 @@
 
 ## System Overview
 
-Klypup Research OS is a full-stack, multi-tenant investment research dashboard. The frontend is a Next.js app. The backend is a FastAPI REST API. PostgreSQL stores users, organizations, memberships, saved reports, watchlists, invites, and audit logs. The AI research layer selects data tools dynamically, fetches external market/news/SEC data, searches Qdrant-backed RAG when configured, caches expensive tool calls in Upstash Redis, and uses OpenAI for concise source-grounded synthesis.
+Investment Research OS is a full-stack, multi-tenant investment research dashboard. The frontend is a Next.js app. The backend is a FastAPI REST API. PostgreSQL stores users, organizations, memberships, saved reports, watchlists, invites, and audit logs. The AI research layer selects data tools dynamically, fetches external market/news/SEC data, searches Qdrant-backed RAG when configured, caches expensive tool calls in Upstash Redis, and uses OpenAI for concise source-grounded synthesis.
 
 ## Editable Excalidraw Diagrams
 
 The editable architecture board is available at:
 
-- [`docs/diagrams/klypup-architecture.excalidraw`](docs/diagrams/klypup-architecture.excalidraw)
+- [`docs/diagrams/investment-research-architecture.excalidraw`](docs/diagrams/investment-research-architecture.excalidraw)
 
 Open it in [Excalidraw](https://excalidraw.com) with **Open > Select file from device**. The board contains five labeled frames:
 

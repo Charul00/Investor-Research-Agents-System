@@ -2,7 +2,7 @@
 
 Editable Excalidraw board:
 
-- `klypup-architecture.excalidraw`
+- `investment-research-architecture.excalidraw`
 
 Open the file at `https://excalidraw.com` using **Open > Select file from device**.
 

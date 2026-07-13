@@ -12,10 +12,10 @@ class Settings(BaseSettings):
     )
 
     api_v1_prefix: str = "/api/v1"
-    project_name: str = "Klypup Research API"
+    project_name: str = "Investment Research API"
     environment: Literal["development", "staging", "production"] = "development"
     secret_key: str = "replace-this-before-production-with-32-plus-characters"
-    database_url: str = "postgresql+psycopg://klypup:klypup@localhost:5432/klypup_research"
+    database_url: str = "postgresql+psycopg://research:research@localhost:5432/investment_research"
     frontend_url: str = "http://localhost:3000"
     cors_origins: Annotated[list[str], NoDecode] = [
         "http://localhost:3000",
@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     sec_user_agent: str | None = None
     qdrant_url: str | None = None
     qdrant_api_key: str | None = None
-    qdrant_collection: str = "klypup_research_documents"
+    qdrant_collection: str = "investment_research_documents"
     upstash_redis_rest_url: str | None = None
     upstash_redis_rest_token: str | None = None
     cache_enabled: bool = True

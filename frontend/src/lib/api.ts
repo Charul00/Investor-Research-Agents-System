@@ -254,8 +254,8 @@ function formatApiError(payload: ApiErrorPayload | null, response: Response) {
   );
 }
 
-export const SESSION_STORAGE_KEY = "klypup.research.session";
-export const SESSION_CHANGED_EVENT = "klypup.research.session.changed";
+export const SESSION_STORAGE_KEY = "investment.research.session";
+export const SESSION_CHANGED_EVENT = "investment.research.session.changed";
 
 function notifySessionChanged() {
   window.dispatchEvent(new Event(SESSION_CHANGED_EVENT));

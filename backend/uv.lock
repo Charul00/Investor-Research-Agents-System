@@ -343,7 +343,7 @@ wheels = [
 ]
 
 [[package]]
-name = "klypup-research-api"
+name = "investment-research-api"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

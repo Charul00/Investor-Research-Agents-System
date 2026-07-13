@@ -4,7 +4,7 @@
 
 ### 1. Product Context
 
-Klypup Research OS is an AI-powered investment research dashboard for analysts. The goal is to reduce manual research time by combining market data, recent news sentiment, document evidence, and OpenAI synthesis inside a real authenticated workspace.
+Investment Research OS is an AI-powered investment research dashboard for analysts. The goal is to reduce manual research time by combining market data, recent news sentiment, document evidence, and OpenAI synthesis inside a real authenticated workspace.
 
 Key point: AI is a feature inside the product, not the entire product.
 

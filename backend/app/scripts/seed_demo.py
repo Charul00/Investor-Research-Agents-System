@@ -281,7 +281,7 @@ def seed() -> None:
         multi_org_analyst = get_or_create_user(
             db,
             "Priya Nair",
-            "multi@klypup.demo",
+            "multi@research.demo",
         )
 
         northstar = get_or_create_organization(db, "Northstar Capital", northstar_admin)
@@ -670,7 +670,7 @@ def seed() -> None:
         print("Helios analyst: analyst@helios.com / DemoPass123")
         print("Cedar Ridge admin: admin@cedarridge.com / DemoPass123")
         print("Cedar Ridge analyst: analyst@cedarridge.com / DemoPass123")
-        print("Multi-org analyst: multi@klypup.demo / DemoPass123")
+        print("Multi-org analyst: multi@research.demo / DemoPass123")
     finally:
         db.close()
 

@@ -5,13 +5,13 @@ export default function Home() {
     <div className="min-h-screen text-[var(--ink-soft)]">
       <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[#f8faf7]/88 px-4 py-3 shadow-[0_12px_36px_rgba(15,23,42,0.06)] backdrop-blur-xl sm:px-6 md:px-10">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
-          <Link href="/" className="group flex items-center gap-3" aria-label="Klypup Research OS home">
+          <Link href="/" className="group flex items-center gap-3" aria-label="AI Researcher home">
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[var(--foreground)] text-sm font-semibold text-white shadow-[0_14px_28px_rgba(15,23,42,0.18)] transition-transform duration-200 group-hover:-translate-y-0.5">
-              KR
+              AR
             </span>
             <span>
               <span className="block text-base font-semibold tracking-[-0.02em] text-[var(--foreground)]">
-                Klypup Research OS
+                AI Researcher
               </span>
               <span className="hidden text-xs font-medium text-[var(--muted)] sm:block">
                 AI research workspace
@@ -52,10 +52,10 @@ export default function Home() {
       <section className="mb-10 flex flex-col gap-6 pt-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--foreground)] text-lg font-semibold text-white">
-            KR
+            AR
           </div>
           <div>
-            <p className="eyebrow mb-1">Klypup Research OS</p>
+            <p className="eyebrow mb-1">AI Researcher</p>
             <p className="text-sm text-[var(--muted)]">
               Investment intelligence for modern analyst teams
             </p>
@@ -76,7 +76,7 @@ export default function Home() {
 
       <section id="product" className="scroll-mt-28 grid items-stretch gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="glass-panel p-5 sm:p-8 md:p-10">
-          <p className="eyebrow mb-3">Klypup Research OS</p>
+          <p className="eyebrow mb-3">AI Researcher</p>
           <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-[var(--foreground)] sm:text-4xl lg:text-6xl">
             Research earnings, filings, headlines, and market moves in one workspace.
           </h1>
@@ -245,10 +245,10 @@ export default function Home() {
           <div>
             <div className="mb-5 flex items-center gap-3">
               <div className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-sm font-semibold text-[var(--foreground)]">
-                KR
+                AR
               </div>
               <div>
-                <p className="text-lg font-semibold text-white">Klypup Research OS</p>
+                <p className="text-lg font-semibold text-white">AI Researcher</p>
                 <p className="text-sm text-[#9fb8af]">Applied AI for investment research teams.</p>
               </div>
             </div>
@@ -257,7 +257,7 @@ export default function Home() {
               orchestration, source attribution, and structured AI briefs.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="mailto:hello@klypup.ai" className="rounded-full border border-white/20 bg-white/8 px-4 py-2 text-sm font-extrabold text-[#ffffff] drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)] transition-colors hover:bg-white/14">
+              <a href="mailto:hello@example.com" className="rounded-full border border-white/20 bg-white/8 px-4 py-2 text-sm font-extrabold text-[#ffffff] drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)] transition-colors hover:bg-white/14">
                 Contact sales
               </a>
               <Link
@@ -285,7 +285,7 @@ export default function Home() {
                 Company
               </h3>
               <ul className="space-y-3 text-sm text-[#a8beb6]">
-                <li><a className="hover:text-white" href="mailto:hello@klypup.ai">Contact</a></li>
+                <li><a className="hover:text-white" href="mailto:hello@example.com">Contact</a></li>
                 <li><Link className="hover:text-white" href="/login">Customer login</Link></li>
                 <li><Link className="hover:text-white" href="/signup">Create workspace</Link></li>
               </ul>
@@ -304,7 +304,7 @@ export default function Home() {
         </div>
 
         <div className="mx-auto mt-10 flex w-full max-w-7xl flex-col gap-3 border-t border-white/10 pt-6 text-xs text-[#8fa79f] sm:flex-row sm:items-center sm:justify-between">
-          <p>Copyright 2026 Klypup Research OS. All rights reserved.</p>
+          <p>Copyright 2026 AI Researcher. All rights reserved.</p>
           <p>Built for analyst teams that need fast research without losing auditability.</p>
         </div>
       </footer>

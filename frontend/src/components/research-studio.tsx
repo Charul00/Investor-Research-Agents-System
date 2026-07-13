@@ -272,7 +272,7 @@ export function ResearchStudio({ initialSession }: ResearchStudioProps) {
       setQuery(queryFromUrl);
     }
 
-    const cachedResult = sessionStorage.getItem("klypup.research.lastResult");
+    const cachedResult = sessionStorage.getItem("investment.research.lastResult");
     if (!cachedResult) {
       return;
     }
@@ -287,7 +287,7 @@ export function ResearchStudio({ initialSession }: ResearchStudioProps) {
         ]);
       }
     } catch {
-      sessionStorage.removeItem("klypup.research.lastResult");
+      sessionStorage.removeItem("investment.research.lastResult");
     }
   });
 
@@ -345,7 +345,7 @@ export function ResearchStudio({ initialSession }: ResearchStudioProps) {
       );
       setResult(nextResult);
       setActiveTab("answer");
-      sessionStorage.setItem("klypup.research.lastResult", JSON.stringify(nextResult));
+      sessionStorage.setItem("investment.research.lastResult", JSON.stringify(nextResult));
       setMessages((current) => [
         ...current.filter((message) => !message.id.includes("assistant-pending")),
         {

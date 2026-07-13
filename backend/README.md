@@ -1,4 +1,4 @@
-# Klypup Research API
+# Investment Research API
 
 FastAPI backend for the investment research dashboard.
 
@@ -39,4 +39,4 @@ usable if an external provider is temporarily slow.
 - `analyst@helios.com` / `DemoPass123`
 - `admin@cedarridge.com` / `DemoPass123`
 - `analyst@cedarridge.com` / `DemoPass123`
-- `multi@klypup.demo` / `DemoPass123`
+- `multi@research.demo` / `DemoPass123`

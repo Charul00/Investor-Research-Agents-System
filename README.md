@@ -1,6 +1,6 @@
-# Klypup Research OS
+# Investment Research OS
 
-AI-powered investment research dashboard for the Klypup Applied AI Intern technical assessment.
+AI-powered investment research dashboard for the applied AI technical assessment.
 
 ## Option Chosen
 
@@ -8,7 +8,7 @@ I chose **Option A: Investment Research Dashboard** because it best demonstrates
 
 ## Product Summary
 
-Klypup Research OS lets analysts ask natural-language market questions such as:
+Investment Research OS lets analysts ask natural-language market questions such as:
 
 > Show only NVIDIA latest stock price, volume, P/E, revenue, EPS, and recent price performance.
 
@@ -69,7 +69,7 @@ The backend plans which tools are needed, fetches evidence from market/news/RAG 
 
 - `ARCHITECTURE.md`: system architecture, data flow, ERD, AI orchestration, multi-tenant flow, and API design.
 - `DECISIONS.md`: option choice, tech stack rationale, multi-tenancy, AI design, trade-offs, and improvements.
-- `docs/diagrams/klypup-architecture.excalidraw`: editable Excalidraw board with all required architecture diagrams.
+- `docs/diagrams/investment-research-architecture.excalidraw`: editable Excalidraw board with all required architecture diagrams.
 
 ## Local Setup
 
@@ -91,10 +91,10 @@ Edit `backend/.env` and set:
 ```bash
 OPENAI_API_KEY=your_openai_key
 SECRET_KEY=replace-with-a-long-random-secret
-DATABASE_URL=postgresql+psycopg://klypup:klypup@localhost:5432/klypup_research
+DATABASE_URL=postgresql+psycopg://research:research@localhost:5432/investment_research
 TWELVE_DATA_API_KEY=your_twelve_data_key
 ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
-SEC_USER_AGENT=KlypupResearchOS/1.0 your-email@example.com
+SEC_USER_AGENT=InvestmentResearchOS/1.0 your-email@example.com
 QDRANT_URL=https://your-cluster-url.qdrant.io:6333
 QDRANT_API_KEY=your_qdrant_api_key
 UPSTASH_REDIS_REST_URL=https://your-db.upstash.io
@@ -118,9 +118,9 @@ docker compose up -d postgres
 If Docker is not installed, use local PostgreSQL:
 
 ```bash
-createdb klypup_research
-psql postgres -c "CREATE USER klypup WITH PASSWORD 'klypup';"
-psql postgres -c "GRANT ALL PRIVILEGES ON DATABASE klypup_research TO klypup;"
+createdb investment_research
+psql postgres -c "CREATE USER research WITH PASSWORD 'research';"
+psql postgres -c "GRANT ALL PRIVILEGES ON DATABASE investment_research TO research;"
 ```
 
 If the database already exists, only confirm the connection string in `backend/.env`.
@@ -178,7 +178,7 @@ DemoPass123
 | `analyst@helios.com` | Analyst | Helios Asset Management |
 | `admin@cedarridge.com` | Admin | Cedar Ridge Partners |
 | `analyst@cedarridge.com` | Analyst | Cedar Ridge Partners |
-| `multi@klypup.demo` | Analyst | Northstar Capital + Eastbridge Research |
+| `multi@research.demo` | Analyst | Northstar Capital + Eastbridge Research |
 
 ## Demo Workflows
 

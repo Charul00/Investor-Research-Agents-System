@@ -161,7 +161,7 @@ export function FloatingAgentLauncher({
 
     const nextResult = await onSubmitQuery(nextQuery);
     if (nextResult) {
-      sessionStorage.setItem("klypup.research.lastResult", JSON.stringify(nextResult));
+      sessionStorage.setItem("investment.research.lastResult", JSON.stringify(nextResult));
     }
 
     setMessages((currentMessages) => [
@@ -203,7 +203,7 @@ export function FloatingAgentLauncher({
               <div>
                 <p className="eyebrow mb-1">Mini research chat</p>
                 <h2 className="text-lg font-semibold text-[var(--foreground)]">
-                  Klypup AI assistant
+                  Research AI assistant
                 </h2>
                 {isRunning ? (
                   <p className="mt-1 text-sm text-[var(--muted)]">{activeLiveAgent.shortAction}</p>

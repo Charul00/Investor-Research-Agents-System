@@ -1,5 +1,5 @@
 [project]
-name = "klypup-research-api"
+name = "investment-research-api"
 version = "0.1.0"
 description = "Backend API for the AI-powered investment research dashboard"
 readme = "README.md"

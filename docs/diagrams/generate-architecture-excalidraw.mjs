@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
 
-const outFile = new URL("./klypup-architecture.excalidraw", import.meta.url);
+const outFile = new URL("./investment-research-architecture.excalidraw", import.meta.url);
 
 let counter = 0;
 
@@ -166,7 +166,7 @@ function add(...items) {
 
 const system = frame(0, 0, 1700, 900, "1. System Architecture");
 add(system);
-add(text(40, 35, 700, "System Architecture: Klypup Research OS", {
+add(text(40, 35, 700, "System Architecture: Investment Research OS", {
   frameId: system.id,
   fontSize: 30,
   align: "left",
